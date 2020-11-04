@@ -1,0 +1,12 @@
+FROM python:3.7-slim
+
+WORKDIR /app
+COPY ./app/requirements.txt requirements.txt
+
+RUN pip install -r requirements.txt
+
+COPY ./app /app
+
+ENV GIT_PYTHON_REFRESH=quiet
+
+CMD ["streamlit", "run", "app.py"]

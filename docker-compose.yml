@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+
+  fastapi:
+    build:
+      context: .
+      dockerfile: Dockerfile-fastapi
+    ports:
+      - 8000:8000
+    image: <docker-hub-username>/<image-name>
+    environment:
+      BLOB_ACC_NAME: <storage-acc-name>
+      BLOB_ACC_KEY: <storage-acc-secret-key>
+    # volumes:
+    #   - ./api:/app
+  
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile-streamlit
+    ports:
+      - 8501:8501
+    environment:
+      STREAMLIT_SERVER_RUN_ON_SAVE: "True"
+      CONTAINER_NAME: <container-name>
+      MODEL_NAME: <model-name>
+    image: <docker-hub-username>/<image-name>
+    dns_search: dskoolbence.region.azurecontainer.io
+    depends_on:
+      - fastapi
+    # volumes:
+    #   - ./app:/app
